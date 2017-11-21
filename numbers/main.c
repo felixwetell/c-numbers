@@ -9,6 +9,6 @@
 #include <stdio.h>
 
 int main(){
-    
+    printf("Hej Viktor");
     return 0;
 }
