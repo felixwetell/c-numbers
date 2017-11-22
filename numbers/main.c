@@ -63,14 +63,13 @@ int main(){
     print(unsorted_numbers);
     
     // Copying the unsorted list before modifying
-    for (j = 0; j < sizeof(unsorted_numbers); j++) {
+    for (j = 0; j < sizeof(unsorted_numbers)/sizeof(int); j++) {
         sorted_numbers[j] = unsorted_numbers[j];
     }
     
     printf("Sorted array: \n");
     //sort(unsorted_numbers);
     print(sorted_numbers);
-    printf("End?\n");
     
     return 0;
 }
