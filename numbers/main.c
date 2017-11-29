@@ -9,7 +9,7 @@
 int duplicate(int array[100], int number){
     int answer = 0, i;
 
-    for (i = 0; i < sizeof(array); i++) {
+    for (i = 0; i < 100; i++) {
         if (array[i] == number) {
             answer = 1;
         }
@@ -29,14 +29,14 @@ void print(int array[]){
 
             val++;
         }
-        printf(" :: Radsumman av rad %i är %i\n",row + 1,rowsum);
+        printf(" :: Rowsum of row %i is %i\n",row + 1,rowsum);
         rowsum = 0;
     }
 
-    printf("Kolumnsumma: ");
+    printf("Kolumnsumma: \n");
     for (i = 0; i < 10; i++)
     {
-        printf("%i ", columsum[i]);
+        printf("Kolumn %i %i\n", i + 1, columsum[i]);
     }
     printf("\n");
 }
@@ -69,57 +69,162 @@ void count(int array[])
     int i, sum = 0;
     for (i = 0; i < 100; i++)
     {
-        sum+=array[i];
+        sum += array[i];
     }
-    sum/=100;
-    printf("Medelvärdet är: %i\n", sum);
-    printf("Medianen är: %i\n", (array[49] + array[50]) / 2);
-    printf("Maxvärde: %i\n", array[99]);
-    printf("Minvärde: %i\n", array[0]);
+    sum /= 100;
+    printf("Average value: %i\n", sum);
+    printf("Median: %i\n", (array[49] + array[50]) / 2);
+    printf("Max value: %i\n", array[99]);
+    printf("Minimum value: %i\n", array[0]);
 }
 
+// Binary seach function
+void search (int array[], int comp)
+{
+    int high = 100, low = 0, mid;
+    
+    while ((high - low) > 1) {
+    
+        mid = (high + low) / 2;
+        
+        if (comp >= array[mid]) {
+            low = mid;
+        }
+        
+        else {
+            high = mid;
+        }
+    }
+    
+    // Returns the searched value if it exist
+    if (comp == array[low]) {
+        printf("Number searched: %i found on position %i\n", comp, low + 1);
+        }
+    
+    //Returns a faulty value telling the code that the searched number does not exist
+    else {
+        printf("Number not found: %i\n", comp);
+        }
+}
+
+// Checks an array
+int choice(int array[], int number) {
+    int answer = -1, i;
+    
+    if (number == 1) {
+        answer = 1;
+    }
+    
+    else if (number == 2) {
+        for (i = 0; i < 50; i++) {
+            if (array[i] == 1) {
+                answer = 2;
+                break;
+            }
+            else {
+                answer = -1;
+            }
+        }
+    }
+    
+    else if (number == 3 || number == 4 || number == 5){
+        int temp1 = 0, temp2 = 0;
+        
+        for (i = 0; i < 50; i++) {
+            if (array[i] == 1) {
+                temp1 = 1;
+            }
+            else if (array[i] == 2) {
+                temp2 = 1;
+            }
+            
+            if (temp1 == 1 && temp2 == 1) {
+                answer = number;
+            }
+            else {
+                answer = -1;
+            }
+        }
+    }
+    return answer;
+}
 
 int main(){
 
     // Initialzing some variables
-    int number, max = 800, min = 100, i, j;
+    int number, max = 800, min = 100, input, value = 0, temp = 0;
+    
+    // Fixed size for array, quick fix
+    int log[50] = {0};
     int unsorted_numbers[100], sorted_numbers[100];
 
-    // Seed for the random number generator
-    srand((int)time(NULL));
+    do {
+        printf("Enter a number: ");
+        scanf("%i", &input);
+        printf("\n");
+        
+        log[temp] = input;
+        
+        switch (choice(log, input)) {
+            case 1:
+                // Seed for the random number generator
+                srand((int)time(NULL));
+                
+                // Adds random number between min and max, excludes duplicates
+                int i, j;
+                for (i = 0; i < 100; i++) {
+                    number = rand() % max + min;
+                    
+                    while (duplicate(unsorted_numbers, number) == 1) {
+                        number = rand() % max + min;
+                    }
+                    unsorted_numbers[i] = number;
+                }
+                
+                // Printing unsorted array (1)
+                printf("Unsorted array: \n");
+                print(unsorted_numbers);
+                printf("\n");
 
-    // Adds random number between min and max, excludes duplicates
-    for (i = 0; i < 100; i++) {
-        number = rand() % max + min;
+                // Copying the unsorted list before modifying
+                for (j = 0; j < sizeof(unsorted_numbers)/sizeof(int); j++) {
+                    sorted_numbers[j] = unsorted_numbers[j];
+                }
+                printf("\n");
+                break;
+                
+            case 2:
 
-        while (duplicate(unsorted_numbers, number) == 1) {
-            number = rand() % max + min;
+                // Sorting and printing the array (2)
+                printf("Sorted array: \n");
+                sort(sorted_numbers);
+                //qsort(sorted_numbers, 100, sizeof(int), cmpfunc);
+                print(sorted_numbers);
+                printf("\n");
+                break;
+                
+                
+            case 3:
+                // Prints out Calculations (3)
+                count(sorted_numbers);
+                printf("\n");
+                break;
+            
+            case 4:
+                printf("Search for a number: ");
+                scanf("%i", &value);
+                // Binary search for numbers (4)
+                search(sorted_numbers, value);
+                printf("\n");
+                break;
+                
+            default:
+                printf("No menu choice for that number");
+                break;
         }
-        unsorted_numbers[i] = number;
-    }
-
-    // Printing unsorted array (1)
-    printf("Unsorted array: \n");
-    print(unsorted_numbers);
-    printf("\n");
-    
-    // Copying the unsorted list before modifying
-    for (j = 0; j < sizeof(unsorted_numbers)/sizeof(int); j++) {
-        sorted_numbers[j] = unsorted_numbers[j];
-    }
-
-    // Sorting and printing the array (2)
-    printf("Sorted array: \n");
-    sort(sorted_numbers);
-    //qsort(sorted_numbers, 100, sizeof(int), cmpfunc);
-    print(sorted_numbers);
-    printf("\n");
-    
-    // Prints out Calculations (3)
-    count(sorted_numbers);
-
-    // Binary search for numbers (4)
-    //search(sorted_numbers);
+        temp++;
+        printf("Enter '0' to exit\n");
+    } while (input != 0);
 
     return 0;
 }
