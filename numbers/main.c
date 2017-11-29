@@ -211,15 +211,16 @@ int main(){
                 break;
             
             case 4:
+                // Binary search for numbers (4)
                 printf("Search for a number: ");
                 scanf("%i", &value);
-                // Binary search for numbers (4)
                 search(sorted_numbers, value);
                 printf("\n");
                 break;
                 
             default:
-                printf("No menu choice for that number");
+                printf("No menu choice for that number\n");
+                printf("\n");
                 break;
         }
         temp++;
