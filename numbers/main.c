@@ -4,6 +4,7 @@
 #include <string.h>
 #include <time.h>
 
+#define clear() printf("\033[H\033[J")
 
 // Checks if the array contains the number from the input variable
 int duplicate(int array[100], int number){
@@ -59,10 +60,13 @@ int * sort(int array[]) {
 }
 
 // Quicksort compare function
+/*
 int cmpfunc (const void * a, const void * b) {
     return (* (int*) a - *(int*) b);
 }
-
+*/
+ 
+// Calculates and prints array values
 void count(int array[])
 {
     int i, sum = 0;
@@ -106,48 +110,6 @@ void search (int array[], int comp)
         }
 }
 
-// Checks an array
-/* int choice(int array[], int number) {
-    int answer = -1, i;
-
-    if (number == 1) {
-        answer = 1;
-    }
-
-    else if (number == 2) {
-        for (i = 0; i < 50; i++) {
-            if (array[i] == 1) {
-                answer = 2;
-                break;
-            }
-            else {
-                answer = -1;
-            }
-        }
-    }
-
-    else if (number == 3 || number == 4 || number == 5){
-        int temp1 = 0, temp2 = 0;
-
-        for (i = 0; i < 50; i++) {
-            if (array[i] == 1) {
-                temp1 = 1;
-            }
-            else if (array[i] == 2) {
-                temp2 = 1;
-            }
-
-            if (temp1 == 1 && temp2 == 1) {
-                answer = number;
-            }
-            else {
-                answer = -1;
-            }
-        }
-    }
-    return answer;
-}
-*/
 // Clears the console after you pressed a menuchoice
 void clrscr()
 {
@@ -157,14 +119,16 @@ void clrscr()
 int main(){
 
     // Initialzing some variables
-    int number, max = 800, min = 100, input, value = 0, temp = 0;
-
-    // Fixed size for array, quick fix
-    // int log[50] = {0};
-    int check1 = 0, check2 = 0;
+    int number, max = 800, min = 100, input, value = 0;
+    
+    // Array for numbers
     int unsorted_numbers[100], sorted_numbers[100];
 
+    // Check values
+    int check1 = 0, check2 = 0;
+    
     do {
+        // Menu
         printf(": : : : : : : : : : : : \n");
         printf(": : : : M E N U : : : : \n");
         printf("1. Print out 100 random numbers between 100 and 900.\n");
@@ -176,11 +140,8 @@ int main(){
         scanf("%i", &input);
         printf("\n");
 
-        //log[temp] = input;
-
         switch (input) {
             case 1:
-                clrscr();
                 // Seed for the random number generator
                 srand((int)time(NULL));
 
@@ -200,18 +161,18 @@ int main(){
                 print(unsorted_numbers);
                 printf("\n");
 
-                // Copying the unsorted list before modifying
-                for (j = 0; j < sizeof(unsorted_numbers)/sizeof(int); j++) {
-                    sorted_numbers[j] = unsorted_numbers[j];
-                }
                 printf("\n");
                 check1=1;
                 break;
 
             case 2:
-                clrscr();
                 if (check1 == 1){
 
+                    // Copying the unsorted list before modifying
+                    for (j = 0; j < sizeof(unsorted_numbers)/sizeof(int); j++) {
+                        sorted_numbers[j] = unsorted_numbers[j];
+                    }
+                    
                     // Sorting and printing the array (2)
                     printf("Sorted array: \n");
                     sort(sorted_numbers);
@@ -224,7 +185,6 @@ int main(){
                 break;
 
             case 3:
-                clrscr();
                 if (check2 == 1){
 
                     // Prints out Calculations (3)
@@ -246,7 +206,6 @@ int main(){
                 break;
 
             default:
-                clrscr();
                 if (input <= 4 && input != 0){
                     printf("No menu choice for that number\n");
                     printf("\n");
@@ -262,7 +221,7 @@ int main(){
 
                 break;
         }
-        temp++;
+        
     } while (input != 0);
 
     return 0;
